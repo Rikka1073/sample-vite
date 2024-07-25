@@ -17,22 +17,25 @@ function App() {
   };
 
   const onClickAddTodo = () => {
-    const newRecord = { title: studyText, time: studyTime };
-    const newRecords = [...record, newRecord];
-    const newTime = [...time, newRecord];
-    setTime(newTime);
-    console.log(newTime);
     if (studyText === "" || studyTime === "") {
       const errorword = "入力されていない項目があります";
       !error.includes(errorword) && setError([...error, errorword]);
       return;
     } else {
+      const newRecord = { title: studyText, time: parseInt(studyTime) };
+      const newRecords = [...record, newRecord];
+      const sumTim = [...time, newRecord.time];
       setRecord(newRecords);
       setStudyText("");
-      setStudyTime(0);
+      setStudyTime("");
       setError([]);
+      setTime(sumTim);
     }
   };
+
+  const totalTime = time.reduce((totalTime, currentTime) => {
+    return totalTime + currentTime;
+  }, 0);
 
   return (
     <div className="App">
@@ -71,7 +74,7 @@ function App() {
         <p>{error}</p>
       </div>
       <div>
-        <p>合計時間:{time.time}/1000（h）</p>
+        <p>合計時間:{totalTime}/1000（h）</p>
       </div>
     </div>
   );
